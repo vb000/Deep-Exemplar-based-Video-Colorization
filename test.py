@@ -47,7 +47,7 @@ def colorize_video(opt, input_path, reference_file, output_path, nonlocal_net, c
 
     # if frame propagation: use the first frame as reference
     # otherwise, use the specified reference image
-    ref_name = input_path + filenames[0] if opt.frame_propagate else reference_file
+    ref_name = reference_file
     print("reference name:", ref_name)
     frame_ref = Image.open(ref_name)
 
@@ -135,6 +135,7 @@ if __name__ == "__main__":
     parser.add_argument("--clip_path", type=str, default="./sample_videos/clips/v32", help="path of input clips")
     parser.add_argument("--ref_path", type=str, default="./sample_videos/ref/v32", help="path of refernce images")
     parser.add_argument("--output_path", type=str, default="./sample_videos/output", help="path of output clips")
+    parser.add_argument("--ref_id", type=int, default=0, help="Index of reference to use")
     opt = parser.parse_args()
     opt.gpu_ids = [int(x) for x in opt.gpu_ids.split(",")]
     cudnn.benchmark = True
@@ -165,7 +166,7 @@ if __name__ == "__main__":
     colornet.cuda()
     vggnet.cuda()
 
-    for ref_name in refs:
+    for ref_name in [refs[args.ref_id]]:
         try:
             colorize_video(
                 opt,
