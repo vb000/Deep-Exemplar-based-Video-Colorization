@@ -166,7 +166,7 @@ if __name__ == "__main__":
     colornet.cuda()
     vggnet.cuda()
 
-    for ref_name in [refs[args.ref_id]]:
+    for ref_name in [refs[opt.ref_id]]:
         try:
             colorize_video(
                 opt,
